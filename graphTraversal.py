@@ -7,17 +7,18 @@ class Node(object):
         self.prev = prev
         self.next = next
     def print(self):
-        print(self.prev.name)# if hasattr(self.name, "data") else None)
+        #print(self.prev.name)
         print(self.data, self.name)
-        print(self.next.name)# if hasattr(self.name, "data") else None)
+        #print(self.next.name)
 
 
 class DoubleList(object):
-    tail = None # The first added node
-    head = None # The newest added node
-    duration = 0
-    profit = 0
-    size = 0
+    def __init__(self):
+        self.tail = None # The first added node
+        self.head = None # The newest added node
+        self.duration = 0
+        self.profit = 0
+        self.size = 0
 
     def print(self):
         curr = self.tail
@@ -103,7 +104,13 @@ class DoubleList(object):
 
 
     def relocateTry(self, node_first, node_second):
-        return [0,0]
+        orig1 = [node_first, node_first.next]
+        new1 = [node_first, node_second, node_first.next]
+        orig2 = [node_second.prev, node_second, node_second.next]
+        new2 = [node_second.prev, node_second.next]
+        d1 = evalDifference(orig1, new1)
+        d2 = evalDifference(orig2, new2)
+        return [d1[0] + d2[0],d1[1] + d2[1]]
 
     def relocate(self, node_first, node_second):
         self.updateTrip(self.relocateTry(node_first, node_second))
@@ -176,10 +183,10 @@ def profit(node):
 # [name, profit, time_to_complete]
 
 node0 = Node([0, 0, 0], "Hotel")
-node1 = Node([1, 1.5, 6], "1")
-node2 = Node([2, 0.5, 15], "2")
-node3 = Node([3, 2.5, 12], "3")
-node4 = Node([4, 3.5, 7], "4")
+node1 = Node([1, 1.5, 0], "1")
+node2 = Node([2, 0.5, 0], "2")
+node3 = Node([3, 2.5, 0], "3")
+node4 = Node([4, 3.5, 0], "4")
 times = np.array([[0,1,4,2,3],[1,0,7,1,10],[4,7,0,8,11],[2,1,8,0,0.5],[3,10,11,0.5,0]])
 
 x = DoubleList()
@@ -188,6 +195,10 @@ x.add(node1)
 x.add(node2)
 x.add(node3)
 x.add(node4)
+print(x.profit)
+print(x.duration)
 x.print()
-x.swap(node1, node4)
+x.relocate(node1, node4)
 x.print()
+print(x.profit)
+print(x.duration)
