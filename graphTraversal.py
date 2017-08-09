@@ -7,7 +7,10 @@ class Node(object):
         self.prev = prev
         self.next = next
     def print(self):
+        print(self.prev.name)# if hasattr(self.name, "data") else None)
         print(self.data, self.name)
+        print(self.next.name)# if hasattr(self.name, "data") else None)
+
 
 class DoubleList(object):
     tail = None # The first added node
@@ -99,8 +102,21 @@ class DoubleList(object):
 
 
 
+    def relocateTry(self, node_first, node_second):
+        return [0,0]
 
-    #def relocate(self,#TODO:This):
+    def relocate(self, node_first, node_second):
+        self.updateTrip(self.relocateTry(node_first, node_second))
+        node_second.next.prev = node_second.prev
+        node_second.prev.next = node_second.next
+
+        node_first.next.prev = node_second
+        node_second.next = node_first.next
+
+        node_first.next = node_second
+        node_second.prev = node_first
+
+        node_first.next = node_second
 
     def swapTry(self, old_node, new_node):
         if self.size <=1:
@@ -159,31 +175,19 @@ def profit(node):
 # Node
 # [name, profit, time_to_complete]
 
-node1 = Node([0, 0, 0], "Hotel")
-node2 = Node([1, 1.5, 6], "1")
-node3 = Node([2, 0.5, 15], "2")
-node4 = Node([3, 2.5, 12], "3")
-node5 = Node([4, 3.5, 7], "4")
+node0 = Node([0, 0, 0], "Hotel")
+node1 = Node([1, 1.5, 6], "1")
+node2 = Node([2, 0.5, 15], "2")
+node3 = Node([3, 2.5, 12], "3")
+node4 = Node([4, 3.5, 7], "4")
 times = np.array([[0,1,4,2,3],[1,0,7,1,10],[4,7,0,8,11],[2,1,8,0,0.5],[3,10,11,0.5,0]])
 
 x = DoubleList()
+x.add(node0)
 x.add(node1)
 x.add(node2)
 x.add(node3)
 x.add(node4)
-x.add(node5)
-print(x.profit)
-print(x.duration)
 x.print()
-x.swap(node3, node4)
+x.swap(node1, node4)
 x.print()
-print(x.profit)
-print(x.duration)
-x.swap(node3,node4)
-x.print()
-print(x.profit)
-print(x.duration)
-x.swap(node2,node3)
-x.print()
-print(x.profit)
-print(x.duration)
