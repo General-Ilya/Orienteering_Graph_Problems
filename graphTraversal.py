@@ -202,3 +202,10 @@ x.relocate(node1, node4)
 x.print()
 print(x.profit)
 print(x.duration)
+
+
+
+
+
+
+
