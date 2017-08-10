@@ -36,10 +36,11 @@ class DoubleList(object):
             if curr.name == name:
                 return curr
             curr = curr.next
-        raise Exception("Node not Found/Node Pas Trouvé")
+        raise Exception("Node not Found/    Node Pas Trouvé")
 
     # Remove node with name, in place
-    def remove(self, name):
+    def remove(self, node):
+        name = node.name
         if self.size == 0:
             raise Exception("Empty list")
         if self.size == 1:
@@ -126,23 +127,13 @@ class DoubleList(object):
         node_first.next = node_second
 
     def swapTry(self, old_node, new_node):
-        if self.size <=1:
-            return [0,0]
-        orig = []
-        new = []
-        curr = old_node.prev
-        while curr != new_node.next:
-            orig.append(curr)
-            if curr is old_node:
-                new.append(new_node)
-            elif curr is new_node:
-                new.append(old_node)
-            else:
-                new.append(curr)
-            curr = curr.next
-        orig.append(new_node.next)
-        new.append(new_node.next)
-        return evalDifference(orig, new)
+        orig1 = [old_node.prev, old_node, old_node.next]
+        new1 = [old_node.prev, new_node, old_node.next]
+        orig2 = [new_node.prev, new_node, new_node.next]
+        new2 = [new_node.prev, old_node, new_node.next]
+        d1 = evalDifference(orig1, new1)
+        d2 = evalDifference(orig2, new2)
+        return [d1[0] + d2[0], d1[1] + d2[1]]
 
     # Brute force swap, consider fixing
     def swap(self, old_node, new_node):
@@ -188,20 +179,20 @@ node2 = Node([2, 0.5, 0], "2")
 node3 = Node([3, 2.5, 0], "3")
 node4 = Node([4, 3.5, 0], "4")
 times = np.array([[0,1,4,2,3],[1,0,7,1,10],[4,7,0,8,11],[2,1,8,0,0.5],[3,10,11,0.5,0]])
-
-x = DoubleList()
-x.add(node0)
-x.add(node1)
-x.add(node2)
-x.add(node3)
-x.add(node4)
-print(x.profit)
-print(x.duration)
-x.print()
-x.relocate(node1, node4)
-x.print()
-print(x.profit)
-print(x.duration)
+#
+# x = DoubleList()
+# x.add(node0)
+# x.add(node1)
+# x.add(node2)
+# x.add(node3)
+# x.add(node4)
+# print(x.profit)
+# print(x.duration)
+# x.print()
+# x.relocate(node1, node4)
+# x.print()
+# print(x.profit)
+# print(x.duration)
 
 
 
