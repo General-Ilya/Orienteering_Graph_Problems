@@ -71,10 +71,12 @@ class DoubleList(object):
         return evalDifference([node_first.prev, node_first, node_first.next],
                               [node_first.prev, node_first, node_second, node_first.next])
 
-    def add(self, node_first, node_second): # Node second added after node first
-        self.updateTrip(self.addTry(node))
+    def add(self, node_first, node_second=None): # Node second added after node first
+        self.updateTrip(self.addTry(node_first, node_second))
         if self.tail is None:
-            self.tail = node_second
+            self.tail = node_first
+        if node_second is None:
+            node_first.next = node_first.prev = node_first
         if node_second.prev is not None or node_second.next is not None:
             return
 
@@ -182,35 +184,35 @@ def profit(node):
 # Testing
 # Node
 # [name, profit, time_to_complete]
-
-node0 = Node([0, 0, 0], "Hotel1")
-node00 = Node([0, 0, 0], "Hotel2")
-node1 = Node([1, 1.5, 0], "1")
-node2 = Node([2, 0.5, 0], "2")
-node3 = Node([3, 2.5, 0], "3")
-node4 = Node([4, 3.5, 0], "4")
-times = np.array([[0, 1, 4, 2, 3], [1, 0, 7, 1, 10], [4, 7, 0, 8, 11], [2, 1, 8, 0, 0.5], [3, 10, 11, 0.5, 0]])
-
-x = DoubleList(times)
-x.add(node0)
-x.add(node1)
-x.add(node2)
-
-y = DoubleList(times)
-y.add(node00)
-y.add(node3)
-y.add(node4)
-
-print("X")
-x.display()
-
-print("Y")
-y.display()
-
-x.relocate(node2, node4)
-
-print("X")
-x.display()
-
-print("Y")
-y.display()
+#
+# node0 = Node([0, 0, 0], "Hotel1")
+# node00 = Node([0, 0, 0], "Hotel2")
+# node1 = Node([1, 1.5, 0], "1")
+# node2 = Node([2, 0.5, 0], "2")
+# node3 = Node([3, 2.5, 0], "3")
+# node4 = Node([4, 3.5, 0], "4")
+# times = np.array([[0, 1, 4, 2, 3], [1, 0, 7, 1, 10], [4, 7, 0, 8, 11], [2, 1, 8, 0, 0.5], [3, 10, 11, 0.5, 0]])
+#
+# x = DoubleList(times)
+# x.add(node0)
+# x.add(node1)
+# x.add(node2)
+#
+# y = DoubleList(times)
+# y.add(node00)
+# y.add(node3)
+# y.add(node4)
+#
+# print("X")
+# x.display()
+#
+# print("Y")
+# y.display()
+#
+# x.relocate(node2, node4)
+#
+# print("X")
+# x.display()
+#
+# print("Y")
+# y.display()
