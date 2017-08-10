@@ -67,8 +67,8 @@ class DoubleList(object):
     # Add node to end of List
     def addTry(self, node_first, node_second):
         if node_first is self.tail or self.tail is None:
-            return evalDifference([], [node_second])
-        return evalDifference([node_first.prev, node_first, node_first.next],
+            return self.evalDifference([], [node_second])
+        return self.evalDifference([node_first.prev, node_first, node_first.next],
                               [node_first.prev, node_first, node_second, node_first.next])
 
     def add(self, node_first, node_second=None): # Node second added after node first
@@ -91,7 +91,7 @@ class DoubleList(object):
         switched_node = old_node
         orig = [switched_node.prev, switched_node, switched_node.next]
         new = [switched_node.prev, new_node, switched_node.next]
-        return evalDifference(orig, new)
+        return self.evalDifference(orig, new)
 
     def switch(self, old_node, new_node):
         self.updateTrip(self.switchTry(old_node, new_node))
@@ -108,8 +108,8 @@ class DoubleList(object):
         new1 = [node_first, node_second, node_first.next]
         orig2 = [node_second.prev, node_second, node_second.next]
         new2 = [node_second.prev, node_second.next]
-        d1 = evalDifference(orig1, new1)
-        d2 = evalDifference(orig2, new2)
+        d1 = self.evalDifference(orig1, new1)
+        d2 = self.evalDifference(orig2, new2)
         return [d1[0] + d2[0], d1[1] + d2[1]]
 
     def relocate(self, node_first, node_second):
@@ -127,18 +127,18 @@ class DoubleList(object):
         if old_node.next is new_node:
             ori = [old_node.prev, old_node, new_node, new_node.next]
             new = [old_node.prev, new_node, old_node, new_node.next]
-            return evalDifference(ori, new)
+            return self.evalDifference(ori, new)
         elif new_node.next is old_node:
             ori = [new_node.prev, new_node, old_node, old_node.next]
             new = [new_node.prev, old_node, new_node, old_node.next]
-            return evalDifference(ori, new)
+            return self.evalDifference(ori, new)
 
         orig1 = [old_node.prev, old_node, old_node.next]
         new1 = [old_node.prev, new_node, old_node.next]
         orig2 = [new_node.prev, new_node, new_node.next]
         new2 = [new_node.prev, old_node, new_node.next]
-        d1 = evalDifference(orig1, new1)
-        d2 = evalDifference(orig2, new2)
+        d1 = self.evalDifference(orig1, new1)
+        d2 = self.evalDifference(orig2, new2)
         return [d1[0] + d2[0], d1[1] + d2[1]]
 
     # Brute force swap, consider fixing
@@ -152,33 +152,33 @@ class DoubleList(object):
         new_node.data = s2
 
 
-def evalDifference(nodes_orig, nodes_new):
-    dt = evalProfit(nodes_new) - evalProfit(nodes_orig)
-    dr = evalTime(nodes_new) - evalTime(nodes_orig)
-    return [dt, dr]
+    def evalDifference(self, nodes_orig, nodes_new):
+        dt = self.evalProfit(nodes_new) - self.evalProfit(nodes_orig)
+        dr = self.evalTime(nodes_new) - self.evalTime(nodes_orig)
+        return [dt, dr]
 
 
-def evalProfit(nodes):
-    retVal = 0
-    for node in nodes:
-        retVal += profit(node)
-    return retVal
+    def evalProfit(self, nodes):
+        retVal = 0
+        for node in nodes:
+            retVal += self.profit(node)
+        return retVal
 
 
-def evalTime(nodes):
-    retVal = 0
-    for i in range(len(nodes) - 1):
-        retVal += time(nodes[i], nodes[i + 1])
-    return retVal
+    def evalTime(self, nodes):
+        retVal = 0
+        for i in range(len(nodes) - 1):
+            retVal += self.time(nodes[i], nodes[i + 1])
+        return retVal
 
 
-def time(nodeA, nodeB):
-    t = times[nodeA.data[0]][nodeB.data[0]] + nodeA.data[2]
-    return t
+    def time(self, nodeA, nodeB):
+        t = self.times[nodeA.data[0]][nodeB.data[0]] + nodeA.data[2]
+        return t
 
 
-def profit(node):
-    return node.data[1]
+    def profit(node):
+        return node.data[1]
 
 
 # Testing
