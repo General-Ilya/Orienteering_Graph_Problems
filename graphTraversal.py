@@ -6,25 +6,28 @@ class Node(object):
         self.data = data
         self.prev = prev
         self.next = next
-    def print(self):
-        #print(self.prev.name)
+    def display(self):
+        print(self.prev.name)
         print(self.data, self.name)
-        #print(self.next.name)
+        print(self.next.name)
 
 
 class DoubleList(object):
-    def __init__(self):
+    def __init__(self, times):
         self.tail = None # The first added node
         self.head = None # The newest added node
         self.duration = 0
         self.profit = 0
-        self.size = 0
+        self.times = times
 
-    def print(self):
+    def display(self):
         curr = self.tail
         print("---")
-        for i in range(self.size):
-            curr.print()
+        curr.display()
+        print("---")
+        curr = curr.next
+        while curr is not self.tail:
+            curr.display()
             print("---")
             curr = curr.next
         print("***")
@@ -32,19 +35,21 @@ class DoubleList(object):
     # Return node with name if found, else throw error
     def get(self, name):
         curr = self.tail
-        for i in range(self.size):
+        if curr.name == name:
+            return curr
+        curr = curr.next
+        while curr is not self.tail:
             if curr.name == name:
                 return curr
             curr = curr.next
-        raise Exception("Node not Found/    Node Pas Trouvé")
+        return None
 
     # Remove node with name, in place
     def remove(self, node):
         name = node.name
-        if self.size == 0:
+        if self.tail == None or self.head == None:
             raise Exception("Empty list")
-        if self.size == 1:
-            self.size = 0
+        if self.tail is self.head:
             self.tail = None
             self.head = None
             return
@@ -57,7 +62,6 @@ class DoubleList(object):
         dead_node.prev.next = new_node
         new_node.prev = dead_node.prev
 
-        self.size -= 1
 
     def updateTrip(self, change):
         self.duration += change[1]
@@ -71,7 +75,7 @@ class DoubleList(object):
 
     def add(self, node):
         self.updateTrip(self.addTry(node))
-        if self.size == 0:
+        if self.head is None or self.tail is None:
             self.tail = self.head = node
         else:
             node.prev = self.head
@@ -79,7 +83,6 @@ class DoubleList(object):
             node.prev.next = node
             node.next.prev = node
             self.head = node
-        self.size += 1
 
     # Swap node with name for new_node in place
     def switchTry(self, old_node, new_node):
@@ -117,14 +120,12 @@ class DoubleList(object):
         self.updateTrip(self.relocateTry(node_first, node_second))
         node_second.next.prev = node_second.prev
         node_second.prev.next = node_second.next
-
         node_first.next.prev = node_second
         node_second.next = node_first.next
-
         node_first.next = node_second
         node_second.prev = node_first
-
         node_first.next = node_second
+
 
     def swapTry(self, old_node, new_node):
         orig1 = [old_node.prev, old_node, old_node.next]
@@ -173,30 +174,37 @@ def profit(node):
 # Node
 # [name, profit, time_to_complete]
 
-node0 = Node([0, 0, 0], "Hotel")
+node0 = Node([0, 0, 0], "Hotel1")
+node00 = Node([0, 0, 0], "Hotel2")
 node1 = Node([1, 1.5, 0], "1")
 node2 = Node([2, 0.5, 0], "2")
 node3 = Node([3, 2.5, 0], "3")
 node4 = Node([4, 3.5, 0], "4")
 times = np.array([[0,1,4,2,3],[1,0,7,1,10],[4,7,0,8,11],[2,1,8,0,0.5],[3,10,11,0.5,0]])
-#
-# x = DoubleList()
-# x.add(node0)
-# x.add(node1)
-# x.add(node2)
-# x.add(node3)
-# x.add(node4)
-# print(x.profit)
-# print(x.duration)
-# x.print()
-# x.relocate(node1, node4)
-# x.print()
-# print(x.profit)
-# print(x.duration)
 
+x = DoubleList(times)
+x.add(node0)
+x.add(node1)
+x.add(node2)
 
+y = DoubleList(times)
+y.add(node00)
+y.add(node3)
+y.add(node4)
 
+print("X")
+x.display()
 
+print("Y")
+y.display()
+
+x.relocate(node2, node4)
+
+print("X")
+x.display()
+
+print("Y")
+y.display()
 
 
 
