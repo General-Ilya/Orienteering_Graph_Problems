@@ -77,13 +77,12 @@ class DoubleList(object):
             self.tail = node_second
         if node_second.prev is not None or node_second.next is not None:
             return
-        if node_first
+
         else:
-            node.prev = self.head
-            node.next = self.tail
-            node.prev.next = node
-            node.next.prev = node
-            self.head = node
+            node_second.prev = node_first
+            node_second.next = node_first.next
+            node_first.next.prev = node_second
+            node_first.next = node_second
 
     # Swap node with name for new_node in place
     def switchTry(self, old_node, new_node):
