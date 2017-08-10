@@ -56,7 +56,7 @@ class DoubleList(object):
         dead_node = self.get(name)
         new_node = dead_node.next
         if (dead_node is self.tail):
-            raise Exception("Hotel")a
+            raise Exception("Hotel")
         dead_node.prev.next = new_node
         new_node.prev = dead_node.prev
 
