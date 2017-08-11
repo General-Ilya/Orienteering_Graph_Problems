@@ -22,18 +22,23 @@ values = [val_map.get(node, 0.25) for node in G.nodes()]
 
 
 # Specify the edges you want here
-red_edgesMaster = [(0, 1), (1, 2), (2, 3), (3, 4), (0, 4)]
+tour = [0,1,2,4,3]
+red_edgesMaster = []
+for i in range(len(tour) - 1):
+    red_edgesMaster.append((tour[i], tour[i+1]))
+red_edgesMaster.append((tour[-1], tour[0]))
+
 for i in range(5):
     red_edges = red_edgesMaster[0:i+1]
-    edge_colours = ['black' if not edge in red_edges else 'red'
+    edge_colours = ['white' if not edge in red_edges else 'red'
                     for edge in G.edges()]
-    black_edges = [edge for edge in G.edges() if edge not in red_edges]
+    #black_edges = [edge for edge in G.edges() if edge not in red_edges]
 
     # Need to create a layout when doing
     # separate calls to draw nodes and edges
     pos = nx.spectral_layout(G)
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), node_color = values, alpha=0.7, linewidths=10)
     nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=True, linewidths=100)
-    nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
+    #nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
     nx.draw_networkx_labels(G, pos, font_size=15, font_color='white')
     plt.show()
